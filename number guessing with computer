@@ -1,0 +1,56 @@
+import random
+
+secret_number = random.randint(1, 100)
+print(f" Secret Number: {secret_number}\n")
+
+# ── Function 1: Computer guesses (Binary Search) ──
+def computer_guess():
+    print(" Computer is guessing...")
+    low, high, attempts = 1, 100, 0
+
+    while True:
+        guess = (low + high) // 2
+        attempts += 1
+        print(f"  Attempt {attempts}: Guessed {guess}", end=" → ")
+
+        if guess == secret_number:
+            print(f" Correct!")
+            break
+        elif guess < secret_number:
+            print("Too Low ")
+            low = guess + 1
+        else:
+            print("Too High ")
+            high = guess - 1
+
+    print(f"  Computer found it in {attempts} attempts!\n")
+
+# ── Function 2: AI guesses (Random guessing) ──
+def ai_guess():
+    print(" AI is guessing (Random strategy)...")
+    guessed = set()
+    attempts = 0
+
+    while True:
+        guess = random.randint(1, 100)
+        if guess in guessed:
+            continue
+        guessed.add(guess)
+        attempts += 1
+        print(f"  Attempt {attempts}: Guessed {guess}", end=" → ")
+
+        if guess == secret_number:
+            print(f" Correct!")
+            break
+        elif guess < secret_number:
+            print("Too Low ")
+        else:
+            print("Too High ")
+
+    print(f"  AI found it in {attempts} attempts!\n")
+
+# ── Run both ──
+computer_guess()
+ai_guess()
+
+print(" Done! Computer uses binary search (smart). AI uses random guessing.")
