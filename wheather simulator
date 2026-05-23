@@ -1,0 +1,38 @@
+import random
+from datetime import datetime, timedelta
+
+def generate_weather(days=7):
+    conditions = [" Sunny", " Partly Cloudy", " Rainy", " Cloudy", " Stormy"]
+    forecast   = []
+    for i in range(days):
+        date = datetime.now() + timedelta(days=i)
+        forecast.append({
+            "date":      date.strftime("%A, %b %d"),
+            "condition": random.choice(conditions),
+            "high":      random.randint(25, 42),
+            "low":       random.randint(15, 24),
+            "humidity":  random.randint(40, 95),
+            "rain":      random.randint(0, 100)
+        })
+    return forecast
+
+def show_forecast(forecast):
+    print(" 7-Day Weather Forecast")
+    print("=" * 65)
+    for day in forecast:
+        print(f"{day['date']:<20} {day['condition']:<18} "
+              f"H:{day['high']}°C L:{day['low']}°C  "
+              f"{day['humidity']}%  🌧{day['rain']}%")
+
+def weekly_summary(forecast):
+    avg_high = sum(d["high"] for d in forecast) / len(forecast)
+    avg_low  = sum(d["low"]  for d in forecast) / len(forecast)
+    rainy    = sum(1 for d in forecast if d["rain"] > 60)
+    print(f"\n Weekly Summary:")
+    print(f"  Avg High    : {avg_high:.1f}°C")
+    print(f"  Avg Low     : {avg_low:.1f}°C")
+    print(f"  Rainy Days  : {rainy} days")
+
+forecast = generate_weather(7)
+show_forecast(forecast)
+weekly_summary(forecast)
