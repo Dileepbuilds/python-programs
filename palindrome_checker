@@ -1,0 +1,15 @@
+def check_palindrome(text):
+    cleaned = text.lower().replace(" ", "")
+    return cleaned == cleaned[::-1]
+def main():
+    print("=== palindrome checker ===")
+    while True:
+        word = input("Enter a word/phrase (or 'quit' to exit): ")
+        if word.lower() == 'quit':
+            break
+        if check_palindrome(word):
+            print(f" '{word}' Is a palindrome!")
+        else:
+            print(f" '{word}' is NOT a palindrome.")
+
+main()
