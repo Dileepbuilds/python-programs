@@ -1,0 +1,38 @@
+from datetime import datetime
+
+expenses = []
+
+def add_expense(category, amount, note=""):
+    expense = {
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "category": category,
+        "amount": amount,
+        "note": note
+    }
+    expenses.append(expense)
+    print(f" Added: {category} - ₹{amount}")
+
+def show_expenses():
+    print("\n All Expenses:")
+    print(f"{'Date':<18} {'Category':<15} {'Amount':>8}  Note")
+    print("-" * 55)
+    for e in expenses:
+        print(f"{e['date']:<18} {e['category']:<15} ₹{e['amount']:>7}  {e['note']}")
+
+def summary():
+    total = sum(e["amount"] for e in expenses)
+    by_category = {}
+    for e in expenses:
+        by_category[e["category"]] = by_category.get(e["category"], 0) + e["amount"]
+    print(f"\n Summary:")
+    for cat, amt in by_category.items():
+        print(f"  {cat:<15}: ₹{amt}")
+    print(f"  {'TOTAL':<15}: ₹{total}")
+
+add_expense("Food",      250,  "Lunch at canteen")
+add_expense("Transport", 70,   "Bus fare")
+add_expense("Shopping",  1500, "New shoes")
+add_expense("Food",      200,  "Dinner")
+add_expense("Bills",     1000,  "Phone recharge")
+show_expenses()
+summary()
