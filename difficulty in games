@@ -1,0 +1,67 @@
+import random
+import os
+
+BEST_SCORE_FILE = "best_score.txt"
+
+def load_best_score():
+    if os.path.exists(BEST_SCORE_FILE):
+        with open(BEST_SCORE_FILE, "r") as file:
+            return int(file.read())
+    return None
+
+def save_best_score(score):
+    with open(BEST_SCORE_FILE, "w") as file:
+        file.write(str(score))
+
+print("🎮 Number Guessing Game")
+print("\nChoose Difficulty Level:")
+print("1. Easy (1 - 50)")
+print("2. Medium (1 - 100)")
+print("3. Hard (1 - 200)")
+
+choice = input("\nEnter choice (1/2/3): ")
+
+if choice == "1":
+    max_number = 50
+elif choice == "2":
+    max_number = 100
+elif choice == "3":
+    max_number = 200
+else:
+    print("Invalid choice! Defaulting to Medium.")
+    max_number = 100
+
+secret = random.randint(1, max_number)
+attempts = 0
+
+best_score = load_best_score()
+
+print(f"\nGuess the number between 1 and {max_number}")
+
+if best_score:
+    print(f" Best Score: {best_score} attempts")
+else:
+    print(" No best score yet.")
+
+while True:
+    try:
+        guess = int(input("\nEnter your guess: "))
+        attempts += 1
+
+        if guess < secret:
+            print(" Too low!")
+        elif guess > secret:
+            print(" Too high!")
+        else:
+            print(f"\n Correct! You guessed it in {attempts} attempts.")
+
+            if best_score is None or attempts < best_score:
+                print(" New Best Score!")
+                save_best_score(attempts)
+            else:
+                print(f" Current Best Score: {best_score}")
+
+            break
+
+    except ValueError:
+        print(" Please enter a valid number.")
